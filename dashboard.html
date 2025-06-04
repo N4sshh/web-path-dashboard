@@ -1,0 +1,1020 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeStarter Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #4338ca 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            color: #fbbf24;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .user-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            margin-bottom: 32px;
+        }
+
+        .welcome-title {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .welcome-description {
+            font-size: 18px;
+            color: #cbd5e1;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+        }
+
+        .stat-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .stat-description {
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #fbbf24;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: fit-content;
+            margin-bottom: 24px;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab.active {
+            background: #fbbf24;
+            color: #0f172a;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Lessons Grid */
+        .lessons-container {
+            margin-bottom: 32px;
+        }
+
+        .category-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-badge {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .category-html { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+        .category-css { background: rgba(168, 85, 247, 0.2); color: #c4b5fd; }
+        .category-project { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .lesson-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .lesson-card.completed {
+            border: 2px solid rgba(34, 197, 94, 0.5);
+        }
+
+        .lesson-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .lesson-number {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+        .lesson-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .lesson-duration {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+        }
+
+        .difficulty-badge {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .difficulty-beginner { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+        .difficulty-intermediate { background: rgba(251, 191, 36, 0.2); color: #fde047; }
+        .difficulty-advanced { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+
+        .lesson-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .lesson-button.completed {
+            background: #16a34a;
+            color: white;
+        }
+
+        .lesson-button.available {
+            background: #fbbf24;
+            color: #0f172a;
+        }
+
+        .lesson-button.locked {
+            background: #64748b;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .lesson-button:hover:not(.locked) {
+            transform: translateY(-1px);
+        }
+
+        .button-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Code Playground */
+        .playground-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .playground-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .playground-description {
+            color: #cbd5e1;
+            margin-top: 8px;
+        }
+
+        .playground-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button.primary {
+            background: #16a34a;
+            color: white;
+        }
+
+        .action-button.secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .action-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .playground-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .editor-card, .preview-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-description {
+            color: #cbd5e1;
+            margin-bottom: 16px;
+        }
+
+        .editor-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 16px;
+        }
+
+        .editor-tab {
+            flex: 1;
+            padding: 8px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .editor-tab.active {
+            background: #f97316;
+            color: white;
+        }
+
+        .code-editor {
+            width: 100%;
+            height: 400px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: 400px;
+            background: white;
+            border-radius: 8px;
+            border: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 16px;
+            }
+
+            .user-info span {
+                display: none;
+            }
+
+            .main-content {
+                padding: 24px 16px;
+            }
+
+            .welcome-title {
+                font-size: 32px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .playground-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .playground-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .playground-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                    <polyline points="14,2 14,8 20,8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10,9 9,9 8,9"/>
+                </svg>
+                <h1 class="logo-text">CodeStarter</h1>
+            </div>
+            
+            <div class="header-right">
+                <div class="user-info">
+                    <svg class="user-icon" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>John Doe</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <svg fill="currentColor" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16,17 21,12 16,7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h2 class="welcome-title">Welcome back, John! 👋</h2>
+            <p class="welcome-description">Continue your web development journey where you left off.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Progress</span>
+                    <svg class="stat-icon" fill="currentColor" viewBox="0 0 24 24" style="color: #fbbf24;">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                        <path d="M4 22h16"/>
+                        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    </svg>
+                </div>
+                <div class="stat-value">28%</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 28%;"></div>
+                </div>
+                <p class="stat-description">5 of 18 lessons completed</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Lessons Completed</span>
+                    <svg class="stat-icon" fill="currentColor" viewBox="0 0 24 24" style="color: #34d399;">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22,4 12,14.01 9,11.01"/>
+                    </svg>
+                </div>
+                <div class="stat-value">5</div>
+                <p class="stat-description">Keep up the great work!</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Streak</span>
+                    <svg class="stat-icon" fill="currentColor" viewBox="0 0 24 24" style="color: #f97316;">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                </div>
+                <div class="stat-value">7 days</div>
+                <p class="stat-description">Amazing consistency!</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchContent('lessons')">
+                <svg class="tab-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                Lessons
+            </button>
+            <button class="nav-tab" onclick="switchContent('playground')">
+                <svg class="tab-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                Code Playground
+            </button>
+        </div>
+
+        <!-- Lessons Content -->
+        <div id="lessons-content" class="content-section active">
+            <!-- HTML Fundamentals -->
+            <div class="lessons-container">
+                <h3 class="category-title">
+                    HTML Fundamentals
+                    <span class="category-badge category-html">5 lessons</span>
+                </h3>
+                <div class="lessons-grid">
+                    <div class="lesson-card completed">
+                        <div class="lesson-header">
+                            <div>
+                                <div class="lesson-number">Lesson 1</div>
+                                <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                            </div>
+                        </div>
+                        <h4 class="lesson-title">Introduction to Web Development</h4>
+                        <p class="lesson-duration">Duration: 15 min</p>
+                        <button class="lesson-button completed">
+                            <svg class="button-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            Review
+                        </button>
+                    </div>
+
+                    <div class="lesson-card completed">
+                        <div class="lesson-header">
+                            <div>
+                                <div class="lesson-number">Lesson 2</div>
+                                <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                            </div>
+                        </div>
+                        <h4 class="lesson-title">HTML Basics</h4>
+                        <p class="lesson-duration">Duration: 20 min</p>
+                        <button class="lesson-button completed">
+                            <svg class="button-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            Review
+                        </button>
+                    </div>
+
+                    <div class="lesson-card completed">
+                        <div class="lesson-header">
+                            <div>
+                                <div class="lesson-number">Lesson 3</div>
+                                <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                            </div>
+                        </div>
+                        <h4 class="lesson-title">Text Formatting and Links</h4>
+                        <p class="lesson-duration">Duration: 25 min</p>
+                        <button class="lesson-button completed">
+                            <svg class="button-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            Review
+                        </button>
+                    </div>
+
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <div>
+                                <div class="lesson-number">Lesson 4</div>
+                                <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                            </div>
+                        </div>
+                        <h4 class="lesson-title">Images and Media</h4>
+                        <p class="lesson-duration">Duration: 20 min</p>
+                        <button class="lesson-button available">
+                            <svg class="button-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                            Start Lesson
+                        </button>
+                    </div>
+
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <div>
+                                <div class="lesson-number">Lesson 5</div>
+                                <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                            </div>
+                        </div>
+                        <h4 class="lesson-title">HTML Forms (Intro)</h4>
+                        <p class="lesson-duration">Duration: 30 min</p>
+                        <button class="lesson-button locked">
+                            <svg class="button-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <circle cx="12" cy="16" r="1"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            Locked
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS Styling -->
+            <div class="lessons-container">
+                <h3 class="category-title">
+                    CSS Styling
+                    <span class="category-badge category-css">10 lessons</span>
+                </h3>
+                <div class="lessons-grid">
+                    <div class="lesson-card completed">
+                        <div class="lesson-header">
+                            <div>
+                                <div class="lesson-number">Lesson 6</div>
+                                <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                            </div>
+                        </div>
+                        <h4 class="lesson-title">CSS Introduction</h4>
+                        <p class="lesson-duration">Duration: 20 min</p>
+                        <button class="lesson-button completed">
+                            <svg class="button-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            Review
+                        </button>
+                    </div>
+
+                    <div class="lesson-card completed">
+                        <div class="lesson-header">
+                            <div>
+                                <div class="lesson-number">Lesson 7</div>
+                                <div class="difficulty-badge difficulty-beginner">Beginner</div>
+                            </div>
+                        </div>
+                        <h4 class="lesson-title">CSS Syntax and Selectors</h4>
+                        <p class="lesson-duration">Duration: 25 min</p>
+                        <button class="lesson-button completed">
+                            <svg class="button-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22,4 12,14.01 9,11.01"/>
+                            </svg>
+                            Review
+                        </button>
+                    </div>
+
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <div>
+                                <div class="lesson-number">Lesson 8</div>
+                                <div class="difficulty-badge difficulty-intermediate">Intermediate</div>
+                            </div>
+                        </div>
+                        <h4 class="lesson-title">Box Model & Layout Basics</h4>
+                        <p class="lesson-duration">Duration: 35 min</p>
+                        <button class="lesson-button locked">
+                            <svg class="button-icon" fill="currentColor" viewBox="0 0 24 24">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <circle cx="12" cy="16" r="1"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            Locked
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Playground Content -->
+        <div id="playground-content" class="content-section">
+            <div class="playground-header">
+                <div>
+                    <h3 class="playground-title">Live Code Editor</h3>
+                    <p class="playground-description">Experiment with HTML and CSS in real-time</p>
+                </div>
+                <div class="playground-actions">
+                    <button class="action-button primary" onclick="runCode()">
+                        <svg style="width: 16px; height: 16px;" fill="currentColor" viewBox="0 0 24 24">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        Run Code
+                    </button>
+                    <button class="action-button secondary" onclick="resetCode()">
+                        <svg style="width: 16px; height: 16px;" fill="currentColor" viewBox="0 0 24 24">
+                            <polyline points="1 4 1 10 7 10"/>
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                        </svg>
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="playground-grid">
+                <div class="editor-card">
+                    <h4 class="card-title">
+                        <svg style="width: 20px; height: 20px;" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                        Code Editor
+                    </h4>
+                    <p class="card-description">Write your HTML and CSS code here</p>
+                    
+                    <div class="editor-tabs">
+                        <button class="editor-tab active" onclick="switchEditorTab('html')">HTML</button>
+                        <button class="editor-tab" onclick="switchEditorTab('css')">CSS</button>
+                    </div>
+                    
+                    <textarea id="html-editor" class="code-editor"><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Webpage</title>
+</head>
+<body>
+    <h1>Welcome to CodeStarter!</h1>
+    <p>Start editing the HTML and CSS to see your changes.</p>
+    <button>Click me!</button>
+</body>
+</html></textarea>
+                    
+                    <textarea id="css-editor" class="code-editor" style="display: none;">body {
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #FFD700;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+button {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 24px;
+    background: #FFD700;
+    color: #333;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}</textarea>
+                </div>
+
+                <div class="preview-card">
+                    <h4 class="card-title">Live Preview</h4>
+                    <p class="card-description">See your code in action</p>
+                    
+                    <iframe id="preview-frame" class="preview-frame" title="Code Preview"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Tab switching
+        function switchContent(contentType) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected content and activate corresponding tab
+            document.getElementById(contentType + '-content').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Editor tab switching
+        function switchEditorTab(editorType) {
+            // Hide all editors
+            document.getElementById('html-editor').style.display = 'none';
+            document.getElementById('css-editor').style.display = 'none';
+            
+            // Remove active class from all editor tabs
+            document.querySelectorAll('.editor-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected editor and activate corresponding tab
+            document.getElementById(editorType + '-editor').style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        // Code playground functions
+        function runCode() {
+            const htmlCode = document.getElementById('html-editor').value;
+            const cssCode = document.getElementById('css-editor').value;
+            const combinedCode = `<style>${cssCode}</style>${htmlCode}`;
+            
+            const iframe = document.getElementById('preview-frame');
+            iframe.srcdoc = combinedCode;
+        }
+
+        function resetCode() {
+            document.getElementById('html-editor').value = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Webpage</title>
+</head>
+<body>
+    <h1>Welcome to CodeStarter!</h1>
+    <p>Start editing the HTML and CSS to see your changes.</p>
+    <button>Click me!</button>
+</body>
+</html>`;
+            
+            document.getElementById('css-editor').value = `body {
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #FFD700;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+button {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 24px;
+    background: #FFD700;
+    color: #333;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}`;
+            runCode();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.php?logout=1';
+            }
+        }
+
+        // Initialize the preview on page load
+        window.addEventListener('load', function() {
+            runCode();
+        });
+    </script>
+</body>
+</html>
